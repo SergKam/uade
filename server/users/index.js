@@ -1,8 +1,10 @@
-exports.version = '0.0.1';
+//exports.version = '0.0.1';
 var express = require('express');
 var Sequelize = require('sequelize');
 
-exports.create = function(db) {
+module.exports = create;
+
+function create(db) {
 
     var router = express.Router();
 
@@ -21,7 +23,7 @@ exports.create = function(db) {
     router.post('/auth', function(req, res) {
         var data = {
             email: req.body.email,
-            password: encript(req.body.password),
+            password: encript(req.body.password)
         };
 
         User.findOne({
@@ -77,7 +79,6 @@ exports.create = function(db) {
 
     });
 
-
     var User = db.define('users', {
         uuid: {
             type: Sequelize.STRING,
@@ -101,9 +102,9 @@ exports.create = function(db) {
         avatarUrl: {
             type: Sequelize.STRING,
             defaultValue: "" //,
-                //  validate: {
-                //        isUrl: true
-                //  }
+            //  validate: {
+            //        isUrl: true
+            //  }
         }
     });
 
