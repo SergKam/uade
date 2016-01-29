@@ -1,0 +1,22 @@
+<div class="hero-unit">
+  <h1>List of users</h1>
+  <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+  <p>
+    <a href="#/users/login" class="btn btn-primary btn-large">Login &raquo;</a></p>
+    <a ng-click="logout()" class="btn btn-primary btn-large">Logout &raquo;</a></p>
+Or
+    <a href="#/users/register" class="btn btn-primary btn-large">Register now &raquo;</a></p>
+
+</div>
+
+<!-- Example row of columns -->
+<div>
+
+  <div class='span3 panel' ng-repeat="user in users">
+    <h3>{{user.firstName}} {{user.lastName}}</h3>
+    <h4>{{user.email}}</h4>
+    <h4>{{user.registeredDate|date}}</h4>
+    <p>User ID {{user.uuid}}</p>
+  </div>
+
+</div>

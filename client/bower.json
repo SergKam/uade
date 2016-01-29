@@ -1,0 +1,27 @@
+{
+  "name": "uade",
+  "version": "0.0.0",
+  "authors": [
+    "Sergey Kamenskiy <sergkam@rambler.ru>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-auto-validate": "~1.19.3",
+    "angular-resource": "~1.4.9",
+    "angular-route": "~1.4.9",
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.2.0"
+  }
+}
