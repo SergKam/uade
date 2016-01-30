@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var async = require('async');
 var express = require('express');
 var logger = require("morgan");
@@ -33,8 +34,20 @@ app.use(config.net.path + '/users', usersApi(db));
 app.use(express.static('client'));
 
 //create all db tables
-db.sync();
+console.log("init DB");
+db.sync().then(function() {
+        console.log("try listening on port:" + config.net.port);
+        app.listen(config.net.port, config.net.address, function() {
+                console.log("server listening at " + config.net.address + " http://localhost:" + config.net.port);
+            }
+        );
 
-app.listen(config.net.port, config.net.address, function() {
-    console.log("server listening at", config.net.address + ":" + config.net.port);
-});
+    }, fail.bind(null, 'failed init db')
+);
+
+function fail(msg, e) {
+    console.log(msg);
+    console.error(e);
+    process.exit(1);
+
+}
