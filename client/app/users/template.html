@@ -2,21 +2,26 @@
   <h1>List of users</h1>
   <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
   <p>
-    <a href="#/users/login" class="btn btn-primary btn-large">Login &raquo;</a></p>
-    <a ng-click="logout()" class="btn btn-primary btn-large">Logout &raquo;</a></p>
-Or
-    <a href="#/users/register" class="btn btn-primary btn-large">Register now &raquo;</a></p>
 
 </div>
 
 <!-- Example row of columns -->
-<div>
+<div class="container">
 
-  <div class='span3 panel' ng-repeat="user in users">
-    <h3>{{user.firstName}} {{user.lastName}}</h3>
-    <h4>{{user.email}}</h4>
-    <h4>{{user.registeredDate|date}}</h4>
-    <p>User ID {{user.uuid}}</p>
+  <div class="row">
+    <div class="col-sm-6 col-md-4" ng-repeat="user in users">
+      <div class="thumbnail">
+        <div class="panel panel-default"
+             style="float:left; width: 100px; height: 100px;font-size: 80px ;padding: 6px; margin: 10px"><span
+                class="glyphicon glyphicon-user"></span></div>
+        <div class="caption">
+          <h3>{{user.firstName}} {{user.lastName}}</h3>
+          <p>{{user.email}}</p>
+          <h4>{{user.registeredDate|date}}</h4>
+          <p>User ID {{user.uuid}}</p>
+          <p><a href="#" class="btn btn-primary" role="button">Details</a></p>
+        </div>
+      </div>
+    </div>
   </div>
-
 </div>

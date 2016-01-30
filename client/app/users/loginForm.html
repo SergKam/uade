@@ -1,28 +1,47 @@
 <div class="col-md-6" style="float:right">
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Вход</h3>
-    </div>
-    <div class="panel-body">
-        <form ng-submit="submit()" novalidate="novalidate">
-
-            <fieldset class="form-group">
-                <label for="regInputEmail">Email address</label>
-                <input type="email" class="form-control" id="regInputEmail" placeholder="Enter email" ng-model="form.email" />
-                <br>
-                <small class="text-muted">We'll never share your email with anyone else.</small>
-            </fieldset>
-
-            <fieldset class="form-group">
-                <label for="regInputPass">Password</label>
-                <input type="password" class="form-control" id="regInputPass" placeholder="Enter password" ng-model="form.password" />
-                <br>
-                <small class="text-muted">Never share your password with anyone.</small>
-            </fieldset>
-
-            <button type="submit" class="btn btn-primary">Login</button> <a href="#/users/register" class="btn">Регистрация</a>
-
-        </form>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Вход</h3>
+        </div>
+        <div class="panel-body">
+            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+            </fb:login-button>
+        </div>
     </div>
 </div>
+<div class="col-md-6" style="float:right">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Вход</h3>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="submit()" novalidate="novalidate">
+
+                <fieldset class="form-group">
+                    <label for="regInputEmail">Email address</label>
+                    <input type="email" class="form-control" id="regInputEmail" placeholder="Enter email"
+                           ng-model="form.email"/>
+                    <br>
+
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="regInputPass">Password</label>
+                    <input type="password" class="form-control" id="regInputPass" placeholder="Enter password"
+                           ng-model="form.password"
+                           minlength=6
+                           required="required"/>
+                    <br>
+
+                </fieldset>
+                <div ng-show="error" class="alert alert-danger alert-dismissable">
+                    <strong>Error!</strong> Sorry, Wrong login or password..
+                </div>
+
+                <button type="submit" class="btn btn-primary">Login</button>
+                <a href="#/users/register" class="btn">Регистрация</a>
+
+            </form>
+        </div>
+    </div>
 </div>
