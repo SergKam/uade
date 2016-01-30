@@ -8,16 +8,12 @@ function create(db) {
 
     var router = express.Router();
 
-    router.get('/:id', function(req, res) {
-        User.findById({
-                uuid: req.params.id
-            })
-            .then(function(user) {
-                    res.json(user)
-                },
-                function(err) {
-                    res.status(500).json(err);
-                });
+    router.get('/auth', function(req, res) {
+        if (req.session.user) {
+            res.json(req.session.user)
+        } else {
+            loginFaled(res, 1);
+        }
     });
 
     router.post('/auth', function(req, res) {
@@ -31,25 +27,36 @@ function create(db) {
             })
             .then(function(user) {
                     if (user.password !== data.password) {
-                        loginFaled(res)
+                        loginFaled(res);
                         return;
                     }
 
-                    req.session.user === user;
+                    req.session.user = user;
                     res.json(user)
                 },
                 function() {
                     loginFaled(res)
                 });
-
-    })
+    });
 
     router.delete('/auth', function(req, res) {
         req.session.user = null;
         res.json({
             message: "Auth session stopped"
         });
-    })
+    });
+
+    router.get('/:id', function(req, res) {
+        User.findById({
+                uuid: req.params.id
+            })
+            .then(function(user) {
+                    res.json(user)
+                },
+                function(err) {
+                    res.status(500).json(err);
+                });
+    });
 
     router.post('/', function(req, res) {
         var data = {
@@ -57,7 +64,7 @@ function create(db) {
             email: req.body.email,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
-            password: encript(req.body.password),
+            password: encript(req.body.password)
         };
 
         User.create(data)
@@ -67,7 +74,7 @@ function create(db) {
                 function(err) {
                     res.status(500).json(err);
                 })
-    })
+    });
 
     router.get('/', function(req, res) {
         User.all().then(function(list) {
@@ -120,8 +127,8 @@ function generateUuid() {
     return (Date.now() + "-" + (100000 - Math.random() * 10000));
 }
 
-function loginFaled(res) {
+function loginFaled(res, time) {
     setTimeout(function() {
         res.status(401).json(new Error("Login faled"));
-    }, 3000);
+    }, time || 3000);
 }
