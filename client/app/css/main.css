@@ -1,0 +1,10 @@
+body {
+    background: url(img/bk2.jpg) no-repeat fixed white;
+    text-shadow: -2px 5px 10px rgba(52, 70, 68, 0.41);;
+}
+
+.jumbotron {
+    background: rgba(255,255,255,0.3);
+}
+
+

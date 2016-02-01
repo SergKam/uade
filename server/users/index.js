@@ -23,10 +23,12 @@ function create(db) {
         };
 
         User.findOne({
-                email: data.email
+                where: {
+                    email: data.email
+                }
             })
             .then(function(user) {
-                    if (user.password !== data.password) {
+                    if (!user || (user.password !== data.password)) {
                         loginFaled(res);
                         return;
                     }
@@ -44,6 +46,35 @@ function create(db) {
         res.json({
             message: "Auth session stopped"
         });
+    });
+
+    router.post('/reset', function(req, res) {
+        var data = {
+            email: req.body.email
+        };
+
+        User.findOne({
+                where: {
+                    email: data.email
+                }
+            })
+            .then(function(user) {
+                    //not found
+                    if (!user) {
+                        loginFaled(res);
+                        return;
+                    }
+
+                    //TODO generate password and send it to email
+
+                    res.json({
+                        user: user,
+                        message: "New password sent"
+                    })
+                },
+                function() {
+                    loginFaled(res)
+                });
     });
 
     router.get('/:id', function(req, res) {
@@ -83,7 +114,6 @@ function create(db) {
             function(err) {
                 res.status(500).json(err);
             })
-
     });
 
     var User = db.define('users', {
