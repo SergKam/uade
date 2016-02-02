@@ -3,35 +3,33 @@ var async = require('async');
 var express = require('express');
 var logger = require("morgan");
 var bodyParser = require('body-parser');
-var Sequelize = require('sequelize');
+
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
-var config = require('./server/config.js');
-var usersApi = require("./server/users/index.js");
+var db = require('./db.js');
+var config = require('./config.js');
 
-// initalize sequelize with session store
-var SequelizeStore = require('connect-session-sequelize')(session.Store);
+var sessionStore = require('./sessionStore.js');
+
+var usersApi = require("./users/index.js");
+
 
 var app = express();
-
-var db = new Sequelize(config.db);
 
 app.use(logger('combined'));
 app.use(cookieParser());
 app.use(session({
     secret: config.session.secret,
-    store: new SequelizeStore({
-        db: db
-    }),
+    store: sessionStore,
     proxy: true // if you do SSL outside of node.
 }));
 
 app.use(bodyParser.json());
 
-app.use(config.net.path + '/users', usersApi(db));
+app.use(config.net.path + '/users', usersApi);
 
-app.use(express.static('client'));
+app.use(express.static(config.static));
 
 //create all db tables
 console.log("init DB");

@@ -1,12 +1,10 @@
 //exports.version = '0.0.1';
 var express = require('express');
-var Sequelize = require('sequelize');
+var User = require('./User.js');
 
-module.exports = create;
+var router = express.Router();
 
-function create(db) {
-
-    var router = express.Router();
+module.exports = router;
 
     router.get('/auth', function(req, res) {
         if (req.session.user) {
@@ -116,37 +114,7 @@ function create(db) {
             })
     });
 
-    var User = db.define('users', {
-        uuid: {
-            type: Sequelize.STRING,
-            primaryKey: true
-        },
-        firstName: Sequelize.STRING,
-        lastName: Sequelize.STRING,
-        email: {
-            type: Sequelize.STRING,
-            validate: {
-                isEmail: true
-            }
-        },
-        password: Sequelize.STRING,
 
-        registeredDate: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
-        },
-        description: Sequelize.TEXT,
-        avatarUrl: {
-            type: Sequelize.STRING,
-            defaultValue: "" //,
-            //  validate: {
-            //        isUrl: true
-            //  }
-        }
-    });
-
-    return router;
-}
 
 //TODO
 function encript(pass) {

@@ -4,6 +4,7 @@ exports.net = {
     path: '/api/v1'
 };
 
+exports.static = '../client';
 exports.db = "mysql://" + (process.env.C9_USER || "root:neptun") + "@" + (process.env.IP || "127.0.0.1") + ":3306/c9";
 
 exports.session = {
