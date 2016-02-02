@@ -16,10 +16,14 @@ angular.module('myApp.users', ['ngRoute'])
                 templateUrl: 'app/users/loginForm.html',
                 controller: 'UsersLoginCtrl'
             })
-            .when('/users/restore', {
-                templateUrl: 'app/users/restorePasswordForm.html',
-                controller: 'RestorePasswordCtrl'
-            });
+            .when('/users/reset', {
+                templateUrl: 'app/users/resetPasswordForm.html',
+                controller: 'UsersResetPasswordCtrl'
+            })
+            .when('/users/profile', {
+                templateUrl: 'app/users/profileForm.html',
+                controller: 'UsersProfileCtrl'
+            })
     }])
     .factory('userApi', ['$resource', function($resource) {
         return $resource('/api/v1/users/:userId');
@@ -60,10 +64,24 @@ angular.module('myApp.users', ['ngRoute'])
 
         return user;
     }])
+    .directive('userStatus', ['currentUserModel', function(currentUserModel) {
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {},
+            link: function($scope, $element, $attributes) {
+                $scope.user = currentUserModel;
+                $scope.run = function() {
+                    console.log(currentUserModel);
+                }
+            },
+            templateUrl: 'app/users/statusControl.html'
+        }
+    }])
     .controller('UsersCtrl', ['$scope', 'userApi', 'authApi', '$location', function($scope,
-                                                                                     userApi,
-                                                                                     authApi,
-                                                                                     $location) {
+                                                                                    userApi,
+                                                                                    authApi,
+                                                                                    $location) {
         // We can retrieve a collection from the server
         userApi.query(function(res) {
             $scope.users = res;
@@ -82,7 +100,19 @@ angular.module('myApp.users', ['ngRoute'])
             })
         }
     }])
-    .controller('UsersLoginCtrl', ['$scope', 'resetApi', '$location', 'currentUserModel', function($scope,
+    .controller('UsersProfileCtrl', ['$scope', 'userApi', 'currentUserModel', '$location', function($scope,
+                                                                                                    userApi,
+                                                                                                    currentUserModel,
+                                                                                                    $location) {
+        $scope.form = angular.copy(currentUserModel.properties);
+        $scope.submit = function() {
+            console.log($scope);
+            userApi.save($scope.form, function(user, param) {
+                $location.path('/users')
+            })
+        }
+    }])
+    .controller('UsersLoginCtrl', ['$scope', 'authApi', '$location', 'currentUserModel', function($scope,
                                                                                                    authApi,
                                                                                                    $location,
                                                                                                    currentUserModel) {
@@ -99,9 +129,9 @@ angular.module('myApp.users', ['ngRoute'])
         }
     }])
 
-    .controller('RestorePasswordCtrl', ['$scope', 'resetApi', '$location', function($scope,
-                                                                                    resetApi,
-                                                                                    $location) {
+    .controller('UsersResetPasswordCtrl', ['$scope', 'resetApi', '$location', function($scope,
+                                                                                       resetApi,
+                                                                                       $location) {
         $scope.submit = function() {
             $scope.error = false;
             resetApi.save($scope.form, function() {
@@ -112,19 +142,4 @@ angular.module('myApp.users', ['ngRoute'])
                 }
             )
         }
-    }])
-    .directive('userStatus', ['currentUserModel', function(currentUserModel) {
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {},
-            link: function($scope, $element, $attributes) {
-                $scope.user = currentUserModel;
-                $scope.run = function() {
-                    console.log(currentUserModel);
-                }
-            },
-            templateUrl: 'app/users/statusControl.html'
-        }
-    }])
-;
+    }]);
