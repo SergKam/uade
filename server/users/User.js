@@ -14,6 +14,10 @@ module.exports = db.define('users', {
             isEmail: true
         }
     },
+    role: {
+        type: Sequelize.STRING,
+        defaultValue: "USER"
+    },
     password: Sequelize.STRING,
 
     registeredDate: {
