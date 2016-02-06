@@ -34,7 +34,7 @@ angular.module('myApp.users', ['ngRoute'])
     .factory('resetApi', ['$resource', function($resource) {
         return $resource('/api/v1/users/reset');
     }])
-    .factory('currentUserModel', ['authApi', function(authApi) {
+    .factory('currentUserModel', ['authApi','$route', function(authApi, $route) {
         var user = {
             properties: {},
             setProperties: function(obj) {
@@ -44,6 +44,7 @@ angular.module('myApp.users', ['ngRoute'])
             logout: function() {
                 authApi.delete();
                 this.setProperties({})
+                $route.reload();
             },
 
             isLoggedIn: function() {
@@ -82,21 +83,30 @@ angular.module('myApp.users', ['ngRoute'])
                                                                                     userApi,
                                                                                     authApi,
                                                                                     $location) {
+
+
         // We can retrieve a collection from the server
         userApi.query(function(res) {
             $scope.users = res;
+        }, function(err) {
+            if (err.status === 401) {
+                $location.search('back', $location.path());
+                $location.path('/users/login')
+            }
+
         });
 
         $scope.logout = function() {
             authApi.delete($scope.form, function(user, param) {
                 $location.path('/users')
+
             })
         }
     }])
     .controller('UsersRegisterCtrl', ['$scope', 'userApi', '$location', function($scope, userApi, $location) {
         $scope.submit = function() {
             userApi.save($scope.form, function(user, param) {
-                $location.path('/users')
+                $location.path('/users/login')
             })
         }
     }])
@@ -108,20 +118,22 @@ angular.module('myApp.users', ['ngRoute'])
         $scope.submit = function() {
             console.log($scope);
             userApi.save($scope.form, function(user, param) {
-                $location.path('/users')
+                $location.path('/')
             })
         }
     }])
     .controller('UsersLoginCtrl', ['$scope', 'authApi', '$location', 'currentUserModel', function($scope,
-                                                                                                   authApi,
-                                                                                                   $location,
-                                                                                                   currentUserModel) {
+                                                                                                  authApi,
+                                                                                                  $location,
+                                                                                                  currentUserModel) {
         $scope.submit = function() {
             $scope.error = false;
             authApi.save($scope.form, function(user, param) {
                     $scope.error = false;
                     currentUserModel.setProperties(user);
-                    $location.path('/users')
+                    var back = $location.search().back;
+                    $location.search('back', null);
+                    $location.path(back || '/')
                 }, function() {
                     $scope.error = true;
                 }
