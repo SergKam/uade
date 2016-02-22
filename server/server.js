@@ -28,7 +28,6 @@ app.use(session({
 app.use(bodyParser.json());
 
 app.use(config.net.path + '/users', usersApi);
-
 app.use(express.static(config.static));
 
 //create all db tables

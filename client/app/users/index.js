@@ -43,7 +43,7 @@ angular.module('myApp.users', ['ngRoute'])
 
             logout: function() {
                 authApi.delete();
-                this.setProperties({})
+                this.setProperties({});
                 $route.reload();
             },
 
