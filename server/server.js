@@ -13,6 +13,7 @@ var config = require('./config.js');
 var sessionStore = require('./sessionStore.js');
 
 var usersApi = require("./users/index.js");
+var booksApi = require("./books/index.js");
 
 
 var app = express();
@@ -28,6 +29,8 @@ app.use(session({
 app.use(bodyParser.json());
 
 app.use(config.net.path + '/users', usersApi);
+app.use(config.net.path + '/books', booksApi);
+
 app.use(express.static(config.static));
 
 //create all db tables

@@ -1,0 +1,41 @@
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Регистрация</h3>
+        </div>
+        <div class="panel-body">
+            <form ng-submit="submit()" novalidate="novalidate">
+                <fieldset class="form-group">
+                    <label for="regInputTitle">Title</label>
+                    <input type="text" name="title" class="form-control" id="regInputTitle"
+                           placeholder="Enter book title" ng-model="form.title"/>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="regInputAuthor">Author(s)</label>
+                    <input type="text" name="author" class="form-control" id="regInputAuthor"
+                           placeholder="Enter book author"
+                           ng-model="form.author"/>
+                </fieldset>
+
+                <fieldset class="form-group">
+                    <label for="regInputYear">Year</label>
+                    <input type="text" class="form-control" id="regInputYear" placeholder="Enter year"
+                           ng-model="form.year"
+                           required="required"
+                    />
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="regInputDescription">Description</label>
+                    <textarea type="text" class="form-control" id="regInputDescription" placeholder="Enter description"
+                           ng-model="form.description"
+                           required="required"
+                    />
+                </fieldset>
+
+                <button id="register_book" type="submit" class="btn btn-primary">Register</button>
+
+            </form>
+        </div>
+    </div>
+</div>

@@ -6,6 +6,8 @@ var self = {
 
     VIEW_USERS: 'VIEW_USERS',
     EDIT_USERS: 'EDIT_USERS',
+    VIEW_BOOKS: 'VIEW_BOOKS',
+    EDIT_BOOKS: 'EDIT_BOOKS',
 
     hasAccess: hasAccess,
     allow: allow
@@ -13,13 +15,19 @@ var self = {
 
 with (self) {
     var permissions = {
-        GUEST: [],
+        GUEST: [
+            VIEW_BOOKS
+        ],
         USER: [
-            VIEW_USERS
+            VIEW_USERS,
+            VIEW_BOOKS,
+            EDIT_BOOKS
         ],
         ADMIN: [
             VIEW_USERS,
-            EDIT_USERS
+            EDIT_USERS,
+            VIEW_BOOKS,
+            EDIT_BOOKS
         ]
     };
 }

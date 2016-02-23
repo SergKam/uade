@@ -7,11 +7,8 @@ module.exports = db.define('books', {
         primaryKey: true
     },
     title: Sequelize.STRING,
+    author: Sequelize.STRING,
     year: Sequelize.STRING,
-    role: {
-        type: Sequelize.STRING,
-        defaultValue: "USER"
-    },
     registeredDate: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW

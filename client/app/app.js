@@ -7,6 +7,7 @@ angular.module('myApp', [
   'jcs-autoValidate',
   'myApp.home',
   'myApp.about',
+  'myApp.books',
   'myApp.users'
 ]).
 config(['$routeProvider', function($routeProvider) {
