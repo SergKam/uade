@@ -8,9 +8,7 @@ var router = express.Router();
 module.exports = router;
 
 router.get('/:id', role.allow(role.VIEW_BOOKS), function(req, res) {
-    Book.findById({
-            uuid: req.params.id
-        })
+    Book.findById(req.params.id)
         .then(function(book) {
                 res.json(book)
             },

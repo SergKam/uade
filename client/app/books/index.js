@@ -12,6 +12,10 @@ angular.module('myApp.books', ['ngRoute'])
                 templateUrl: 'app/books/registerForm.html',
                 controller: 'BooksRegisterCtrl'
             })
+            .when('/books/details/:bookId', {
+                templateUrl: 'app/books/details.html',
+                controller: 'BooksDetailsCtrl'
+            })
     }])
     .factory('bookApi', ['$resource', function($resource) {
         return $resource('/api/v1/books/:bookId');
@@ -39,4 +43,27 @@ angular.module('myApp.books', ['ngRoute'])
                 $location.path('/books')
             })
         }
-    }]) ;
+    }])
+    .controller('BooksDetailsCtrl', [
+        '$scope',
+        'bookApi',
+        'authApi',
+        '$location',
+        '$routeParams', function($scope,
+                                 bookApi,
+                                 authApi,
+                                 $location,
+                                 $routeParams) {
+
+
+            // We can retrieve a collection from the server
+            bookApi.get($routeParams, function(res) {
+                $scope.book = res;
+            }, function(err) {
+                if (err.status === 401) {
+                    $location.search('back', $location.path());
+                    $location.path('/users/login')
+                }
+
+            });
+        }]);
